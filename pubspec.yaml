@@ -41,8 +41,12 @@ dependencies:
   fluttertoast: ^8.0.9
   xml: ^6.1.0
   http: ^0.13.4
+  modal_bottom_sheet: ^2.0.1
+  font_awesome_flutter: ^10.1.0
  
   latlong2: ^0.8.1
+  flutter_speed_dial: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +74,7 @@ flutter:
   assets:
     - assets/location/
     - assets/
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

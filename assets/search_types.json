@@ -109,6 +109,33 @@
         "tags": {
           "amenity": "recycling"
         }
+      },
+      {
+        "name": {
+          "singular": "hospital",
+          "plural": "hospitals"
+        },
+        "tags": {
+          "amenity": "hospital"
+        }
+      },
+      {
+        "name": {
+          "singular": "*",
+          "plural": "*"
+        },
+        "tags": {
+          "amenity": "cafe"
+        }
+      },
+      {
+        "name": {
+          "singular": "*",
+          "plural": "*"
+        },
+        "tags": {
+          "amenity": "*"
+        }
       }
     ]
   }

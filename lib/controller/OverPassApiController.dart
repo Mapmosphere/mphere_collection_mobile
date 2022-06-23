@@ -23,7 +23,7 @@ class OverPassApiController extends GetxController {
 
     try {
       StreamedResponse response =
-          await Client().send(request).timeout(const Duration(seconds: 5));
+          await Client().send(request).timeout(const Duration(seconds: 10));
 
       responseText = await response.stream.bytesToString();
     } catch (exception) {

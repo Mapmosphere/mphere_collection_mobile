@@ -13,7 +13,7 @@ class GeoServices {
   late final String fileName;
 
   List<LocationModule> _cachedList = [];
-  GeoServices({required this.overpassApi, this.fileName = 'cities_de'})
+  GeoServices({required this.overpassApi, this.fileName = 'nepal'})
       : assert(overpassApi != null);
 
   Future<List<LocationModule>> getLocations() async {

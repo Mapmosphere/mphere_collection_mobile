@@ -19,7 +19,6 @@ class SearchTypeService extends GetxController {
       List<dynamic> json = await _getJsonFromFile('search_types');
       _cachedList = _jsonToSearchTypes(json);
       print(_cachedList);
-      print("my dummy data is called");
     }
 
     return _cachedList;
