@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:mapmosphere/const/api.dart';
 import 'package:mapmosphere/testDocument/MyLocalModule.dart';
 
 class MyLocalController extends GetxController {
@@ -18,8 +19,7 @@ class MyLocalController extends GetxController {
   }
 
   Future<void> fetchData() async {
-    final response =
-        await http.get(Uri.parse('http://192.168.1.51:3000/books/'));
+    final response = await http.get(Uri.parse(api));
     if (response.statusCode == 200) {
       final extractedData = json.decode(response.body);
       print(extractedData);

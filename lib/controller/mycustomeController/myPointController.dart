@@ -19,5 +19,6 @@ class PointDataController {
     PointDataModel(
         pointName: "Banks", iconData: FontAwesomeIcons.buildingColumns),
     PointDataModel(pointName: "SuperMarket", iconData: FontAwesomeIcons.shop),
+    PointDataModel(pointName: "Others", iconData: Icons.pin_drop),
   ];
 }

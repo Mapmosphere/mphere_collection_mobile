@@ -30,27 +30,42 @@ class _DisplayLocalMapState extends State<DisplayLocalMap> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Display Local Data "),
-        ),
-        body: FlutterMap(
-          options: MapOptions(
-            center: LatLng(51.5, -0.09),
-            zoom: 13.0,
+          backgroundColor: Colors.white,
+          title: const Text(
+            "My Local Pins",
+            style: TextStyle(
+              color: Colors.teal,
+              fontFamily: "Supreme-Regular",
+            ),
           ),
-          layers: [
-            TileLayerOptions(
-              urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              subdomains: ['a', 'b', 'c'],
-            ),
-            MarkerLayerOptions(markers: markers),
-          ],
-          nonRotatedChildren: [
-            AttributionWidget.defaultWidget(
-              source: 'OpenStreetMap contributors',
-              onSourceTapped: () {},
-            ),
-          ],
-        ));
+          centerTitle: true,
+        ),
+        body: Obx(() => myLocalController.isDataLoaded.value == true
+            ? FlutterMap(
+                options: MapOptions(
+                  center: LatLng(
+                      double.parse(myLocalController.faqData.first.lat),
+                      double.parse(myLocalController.faqData.first.long)),
+                  zoom: 13.0,
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate:
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  MarkerLayerOptions(markers: markers),
+                ],
+                nonRotatedChildren: [
+                  AttributionWidget.defaultWidget(
+                    source: 'OpenStreetMap contributors',
+                    onSourceTapped: () {},
+                  ),
+                ],
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              )));
   }
 
   List<Marker> _getMarkers() {
@@ -61,6 +76,7 @@ class _DisplayLocalMapState extends State<DisplayLocalMap> {
               double.parse(myLocalController.faqData[i].long)),
           builder: (cts) => Icon(Icons.pin)));
     }
+    print(markers.length);
     return markers;
   }
 }

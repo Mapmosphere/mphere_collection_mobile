@@ -62,7 +62,16 @@ class _UserInputTagDataState extends State<UserInputTagData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Input data"),
+        backgroundColor: Colors.white,
+        title: const Text(
+          "User Input data",
+          style: TextStyle(
+            color: const Color(0xff3721a4),
+            fontFamily: "Supreme-Regular",
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -78,7 +87,10 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                       backgroundColor: Colors.white,
                       title: const Text(
                         "Features Types",
-                        style: TextStyle(color: Colors.blue, fontSize: 20),
+                        style: TextStyle(
+                            fontFamily: "Supreme-Regular",
+                            color: const Color(0xff3721a4),
+                            fontSize: 20),
                       ),
                       children: [
                         Padding(
@@ -86,7 +98,7 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                           child: Container(
                             height: 70,
                             width: MediaQuery.of(context).size.width,
-                            color: Colors.red,
+                            color: const Color(0xff3721a4),
                             child: Row(
                               children: [
                                 Expanded(
@@ -95,7 +107,10 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                                     width: 20,
                                     color: Colors.white,
                                     child: Center(
-                                      child: Icon(featuresTypes.first.iconData),
+                                      child: Icon(
+                                        featuresTypes.first.iconData,
+                                        color: Color(0xff3721a4),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -111,6 +126,7 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 20,
+                                            fontFamily: "Supreme-Regular",
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -131,7 +147,10 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                       backgroundColor: Colors.white,
                       title: const Text(
                         "Fields",
-                        style: TextStyle(color: Colors.blue, fontSize: 20),
+                        style: TextStyle(
+                            fontFamily: "Supreme-Regular",
+                            color: const Color(0xff3721a4),
+                            fontSize: 20),
                       ),
                       children: [
                         Padding(
@@ -140,7 +159,9 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.red)),
+                                border: Border.all(
+                                  color: const Color(0xff3721a4),
+                                )),
                             child: TextField(
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -157,7 +178,9 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                             padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.red)),
+                                border: Border.all(
+                                  color: const Color(0xff3721a4),
+                                )),
                             child: TextField(
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
@@ -171,57 +194,71 @@ class _UserInputTagDataState extends State<UserInputTagData> {
                 ),
               ),
               // this is the expansion fields to add the tags
-              ExpansionTile(
-                title: Text("Tags"),
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            itemCount: nameController.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: EdgeInsets.all(5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 2, child: tagFields[index]),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                            flex: 3, child: nameFields[index]),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                            alignment: Alignment.centerLeft, child: _addTile()),
-                      ),
-                    ],
+              Card(
+                child: ExpansionTile(
+                  title: const Text(
+                    "Tags",
+                    style: TextStyle(
+                      color: const Color(0xff3721a4),
+                      fontSize: 20,
+                      fontFamily: "Supreme-Regular",
+                    ),
                   ),
-                ],
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              itemCount: nameController.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 2, child: tagFields[index]),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                              flex: 3,
+                                              child: nameFields[index]),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: _addTile()),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white,
           child: const Icon(
             Icons.done,
             size: 30,
+            color: Color(0xff3721a4),
           ),
           onPressed: () {
             var object = [];
@@ -256,9 +293,16 @@ class _UserInputTagDataState extends State<UserInputTagData> {
   Widget _addTile() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: Colors.black, // Background color
+        primary: const Color(0xff3721a4), // Background color
       ),
-      child: const Text("Add Fields"),
+      child: const Text(
+        "Add Fields",
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: "Supreme-Regular",
+          fontSize: 18,
+        ),
+      ),
       onPressed: () {
         final name = TextEditingController();
         final tag = TextEditingController();

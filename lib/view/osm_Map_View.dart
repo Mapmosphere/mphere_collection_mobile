@@ -16,6 +16,7 @@ import 'package:mapmosphere/module/LocationModule.dart';
 import 'package:mapmosphere/module/MyCostumeModule/pointDataModel.dart';
 import 'package:mapmosphere/module/MyCostumeModule/searchModule.dart';
 import 'package:mapmosphere/services/geo_Services.dart';
+import 'package:mapmosphere/testDocument/displayLocalMap.dart';
 import 'package:mapmosphere/view/TagInputSection.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -57,6 +58,9 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
   // index of search module
   int indexOfSearch = 0;
 
+// this is the  locationName
+  List<CustomeSearchModule> locationModel = [];
+  int indexOfLocation = 0;
   // this is the boolean function to check the visibility of searchfield
   bool isVisible = false;
   // thhis is used to maintain the zoom level of the map
@@ -69,11 +73,14 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
   List<PointDataModel> selectedFeatures = [];
   // this is the const textEditing controller
 
+// this is the font family
+  String fontfamily = "Supreme-Regular";
   @override
   void initState() {
     searchTypeController.getSearchTypes();
     Future.delayed(const Duration(seconds: 1), () {
       _getNewSearchType();
+      _getNewLocation();
     });
 
     _geoService = GeoServices(overpassApi: _overpassApi);
@@ -107,6 +114,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                             hintText: "Search.....",
                             hintStyle: TextStyle(
                               color: Colors.teal,
+                              fontFamily: "Supreme-Regular",
                               fontSize: 15,
                             ),
                             border: const OutlineInputBorder(),
@@ -115,9 +123,13 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       ),
                     )
                   : Text(
-                      nameOfSearchAmnity,
+                      nameOfSearchAmnity != ''
+                          ? nameOfSearchAmnity
+                          : "MapMoSphere",
                       style: const TextStyle(
-                        color: Colors.teal,
+                        color: const Color(0xff3721a4),
+                        fontFamily: "Tanker-Regular",
+                        letterSpacing: 1.3,
                         fontSize: 20,
                       ),
                     ),
@@ -136,7 +148,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                     },
                     icon: const Icon(
                       Icons.search,
-                      color: Colors.black,
+                      color: Color(0xff3721a4),
                       size: 40,
                     ),
                   ),
@@ -151,7 +163,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       width: MediaQuery.of(context).size.width,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
-                        image: AssetImage('assets/images/Logo.png'),
+                        image: AssetImage('assets/images/Logo Crop.png'),
                         fit: BoxFit.fill,
                       ))),
                   // this is the drawer body
@@ -159,7 +171,8 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                     title: const Text(
                       "Choose Search Type",
                       style: TextStyle(
-                        color: Color(0xffB25068),
+                        color: Color(0xff3721a4),
+                        fontFamily: "Supreme-Regular",
                         fontSize: 20,
                       ),
                     ),
@@ -174,9 +187,9 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 itemBuilder: ((context, index) {
                                   return Card(
                                     child: ListTile(
-                                      trailing: Icon(
+                                      trailing: const Icon(
                                         Icons.search,
-                                        color: Colors.yellow.shade400,
+                                        color: Color(0xff3721a4),
                                       ),
                                       onTap: () {
                                         setState(() {
@@ -197,6 +210,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                         style: const TextStyle(
                                           color: Colors.teal,
                                           letterSpacing: 0.5,
+                                          fontFamily: "Supreme-Regular",
                                           fontSize: 18,
                                         ),
                                       ),
@@ -207,6 +221,74 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       ),
                     ],
                   ),
+                  // this is for the location
+                  ExpansionTile(
+                    title: const Text(
+                      "Choose Search Location",
+                      style: TextStyle(
+                        color: Color(0xff3721a4),
+                        fontFamily: "Supreme-Regular",
+                        fontSize: 20,
+                      ),
+                    ),
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: MediaQuery.of(context).size.width,
+                        child: isLoaded == false
+                            ? const Text("Loading...")
+                            : ListView.builder(
+                                itemCount: locationModel.length,
+                                itemBuilder: ((context, index) {
+                                  return Card(
+                                    child: ListTile(
+                                      trailing: const Icon(
+                                        Icons.search,
+                                        color: Color(0xff3721a4),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          indexOfLocation = index;
+                                          print(indexOfSearch);
+                                        });
+                                        _getNewLocation();
+                                        Navigator.pop(context);
+                                      },
+                                      title: Text(
+                                        locationModel[index].name.toUpperCase(),
+                                        style: const TextStyle(
+                                          color: Colors.teal,
+                                          letterSpacing: 0.5,
+                                          fontFamily: "Supreme-Regular",
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                      ),
+                    ],
+                  ),
+                  // this is used to view the local pins
+                  // Card(
+                  //   child: ListTile(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => DisplayLocalMap()));
+                  //     },
+                  //     title: const Text(
+                  //       "View Local Pins",
+                  //       style: TextStyle(
+                  //         color: Color(0xff3721a4),
+                  //         fontFamily: "Supreme-Regular",
+                  //         fontSize: 20,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -225,9 +307,15 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       const Spacer(),
                       FloatingActionButton(
                         heroTag: "btn1",
-                        backgroundColor: const Color(0xff4C3A51),
+                        backgroundColor: const Color(0xff3721a4),
                         onPressed: () {
-                          print("It Was clicked");
+                          _mapController.move(
+                              LatLng(
+                                  double.parse(
+                                      currentLocationController.latitude.value),
+                                  double.parse(currentLocationController
+                                      .longitude.value)),
+                              13);
                         },
                         child: const Icon(
                           Icons.gps_fixed_rounded,
@@ -237,7 +325,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
-                          backgroundColor: const Color(0xff4C3A51),
+                          backgroundColor: const Color(0xff3721a4),
                           onPressed: () {
                             zoomPlus();
                           },
@@ -251,7 +339,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                         padding: const EdgeInsets.all(8.0),
                         child: FloatingActionButton(
                           heroTag: "btn2",
-                          backgroundColor: const Color(0xff774360),
+                          backgroundColor: const Color(0xff3721a4),
                           onPressed: () {
                             zoomMinus();
                           },
@@ -269,7 +357,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                       const Spacer(),
                       FloatingActionButton(
                         heroTag: "btn3",
-                        backgroundColor: const Color(0xffB25068),
+                        backgroundColor: const Color(0xff3721a4),
                         onPressed: () {
                           _proceed();
                         },
@@ -360,11 +448,17 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
     if (_locations.isEmpty) {
       return;
     }
-    print(_locations.length);
+
+    locationModel = [];
+
+    for (var i = 0; i < _locations.length; i++) {
+      locationModel.add(CustomeSearchModule(name: _locations[i].name));
+      print(locationModel[i].name);
+    }
     setState(() {
-      _currentLocation = _locations[Random().nextInt(_locations.length)];
-      print(_locations[0].name);
+      _currentLocation = _locations[indexOfLocation];
     });
+
     if (isFirst == true) {
       print("map uninitialized");
     } else {
@@ -444,16 +538,16 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.3,
                     width: MediaQuery.of(context).size.width,
-                    color: const Color(0xffB25068).withOpacity(0.5),
+                    color: Colors.black,
                     child: Column(
                       children: [
                         Card(
                             elevation: 1,
-                            color: const Color(0xffE7AB79),
+                            color: Colors.white,
                             child: ListTile(
                               leading: const Icon(
                                 Icons.build_circle_outlined,
-                                color: Colors.black,
+                                color: Color(0xff3721a4),
                                 size: 30,
                               ),
                               title: Text(
@@ -461,6 +555,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 style: const TextStyle(
                                   color: Colors.black,
                                   letterSpacing: 4.0,
+                                  fontFamily: "Supreme-Regular",
                                   fontSize: 20,
                                 ),
                               ),
@@ -469,6 +564,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 style: const TextStyle(
                                   color: Colors.red,
                                   letterSpacing: 2.0,
+                                  fontFamily: "Supreme-Regular",
                                   fontSize: 16,
                                 ),
                               ),
@@ -476,11 +572,11 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                         // this is the latitude of the place
                         Card(
                             elevation: 1,
-                            color: const Color(0xffE7AB79),
+                            color: Colors.white,
                             child: ListTile(
                               leading: const Icon(
                                 Icons.location_city_outlined,
-                                color: Colors.black,
+                                color: Color(0xff3721a4),
                                 size: 30,
                               ),
                               title: Text(
@@ -488,6 +584,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 style: const TextStyle(
                                   color: Colors.black,
                                   letterSpacing: 4.0,
+                                  fontFamily: "Supreme-Regular",
                                   fontSize: 20,
                                 ),
                               ),
@@ -496,6 +593,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 style: const TextStyle(
                                   color: Colors.red,
                                   letterSpacing: 2.0,
+                                  fontFamily: "Supreme-Regular",
                                   fontSize: 16,
                                 ),
                               ),
@@ -504,11 +602,11 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                         // this is the latitude of the place
                         Card(
                             elevation: 1,
-                            color: const Color(0xffE7AB79),
+                            color: Colors.white,
                             child: ListTile(
                               leading: const Icon(
                                 Icons.location_on_sharp,
-                                color: Colors.black,
+                                color: Color(0xff3721a4),
                                 size: 30,
                               ),
                               title: Text(
@@ -517,6 +615,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                   color: Colors.black,
                                   letterSpacing: 4.0,
                                   fontSize: 20,
+                                  fontFamily: "Supreme-Regular",
                                 ),
                               ),
                               subtitle: Text(
@@ -524,6 +623,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                                 style: const TextStyle(
                                   color: Colors.red,
                                   letterSpacing: 2.0,
+                                  fontFamily: "Supreme-Regular",
                                   fontSize: 16,
                                 ),
                               ),
@@ -626,7 +726,7 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
       builder: (context) => SingleChildScrollView(
         controller: ModalScrollController.of(context),
         child: Container(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
             color: Colors.black,
             child: ListView.builder(
@@ -652,11 +752,17 @@ class _OsmStreetMapState extends State<OsmStreetMap> {
                         backgroundColor: Colors.transparent,
                         child: Icon(
                           PointDataController().pointData[index].iconData,
-                          color: Colors.black,
+                          color: Color(0xff3721a4),
                         ),
                       ),
                       label: Text(
-                          PointDataController().pointData[index].pointName),
+                        PointDataController().pointData[index].pointName,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Supreme-Regular",
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   );
                 })),

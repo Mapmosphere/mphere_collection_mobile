@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:mapmosphere/const/api.dart';
 
 class UpdatePinDataController {
   Future<void> updatePinData(double lat, double long, String featuresTypes,
@@ -17,8 +18,7 @@ class UpdatePinDataController {
       "tags2": long.toString(),
     };
 // '9831501487'
-    final response = await http
-        .post(Uri.parse('http://192.168.1.51:3000/books/'), body: jsonBody);
+    final response = await http.post(Uri.parse(api), body: jsonBody);
 
     if (response.statusCode == 200) {
       print("Data uploaded Scuessfully");

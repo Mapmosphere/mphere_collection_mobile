@@ -28,7 +28,7 @@ class GeoServices {
   Future<List<LocationModule>> getEntitiesInArea(
       {required LocationModule center,
       required SearchType type,
-      double radiusInMetres = 5000}) async {
+      double radiusInMetres = 50000}) async {
     List<ResponseLocation> fetchResult =
         await this.overpassApi.fetchLocationsAroundCenter(
             QueryLocation(
